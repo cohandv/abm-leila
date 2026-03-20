@@ -1,0 +1,107 @@
+<%- include('partials/head', { title: 'Listado' }) %>
+
+<div class="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+  <div>
+    <h1 class="text-2xl font-semibold tracking-tight text-slate-900">Registros</h1>
+    <p class="mt-1 text-sm text-slate-600">
+      <%= records.length %> fila<%= records.length === 1 ? '' : 's' %>
+    </p>
+  </div>
+  <a
+    href="/new"
+    class="inline-flex w-fit items-center justify-center rounded-lg bg-slate-900 px-4 py-2.5 text-sm font-medium text-white shadow-sm hover:bg-slate-800"
+    >Nuevo registro</a
+  >
+</div>
+
+<div
+  class="overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm"
+>
+  <div class="overflow-x-auto">
+    <table class="min-w-[72rem] w-full text-left text-sm">
+      <thead>
+        <tr class="border-b border-slate-200 bg-slate-50/80 text-xs font-semibold uppercase tracking-wide text-slate-600">
+          <th class="px-3 py-3">ID</th>
+          <th class="px-3 py-3">Comercial</th>
+          <th class="px-3 py-3">Categoría</th>
+          <th class="px-3 py-3">Tipo</th>
+          <th class="px-3 py-3">Servicio</th>
+          <th class="px-3 py-3">Nube</th>
+          <th class="px-3 py-3">Status</th>
+          <th class="px-3 py-3">Adm.</th>
+          <th class="px-3 py-3">Backup</th>
+          <th class="px-3 py-3">Plataforma</th>
+          <th class="px-3 py-3">DC</th>
+          <th class="px-3 py-3">AB</th>
+          <th class="px-3 py-3">Otros</th>
+          <th class="px-3 py-3">Contacto</th>
+          <th class="px-3 py-3">Columna1</th>
+          <th class="sticky right-0 z-10 bg-slate-50/95 px-3 py-3 text-right shadow-[-8px_0_12px_-8px_rgba(15,23,42,0.15)] backdrop-blur">Acciones</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-slate-100">
+        <% if (records.length === 0) { %>
+        <tr>
+          <td colspan="16" class="px-4 py-12 text-center text-slate-500">
+            No hay registros. Crea uno con «Nuevo registro».
+          </td>
+        </tr>
+        <% } %> <% records.forEach(function (r) { const serv =
+        Array.isArray(r.servicio) ? r.servicio.join(', ') : (r.servicio || '');
+        %>
+        <tr class="hover:bg-slate-50/80">
+          <td class="whitespace-nowrap px-3 py-2.5 font-mono text-xs text-slate-500">
+            <%= r.id %>
+          </td>
+          <td class="max-w-[10rem] truncate px-3 py-2.5 text-slate-800" title="<%= r.comercial || '' %>">
+            <%= r.comercial || '—' %>
+          </td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.categoria || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.tipo || '—' %></td>
+          <td class="max-w-[12rem] truncate px-3 py-2.5 text-slate-700" title="<%= serv %>">
+            <%= serv || '—' %>
+          </td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.nube || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.status || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.administracion || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.backup_interno || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.plataforma || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.dc || '—' %></td>
+          <td class="whitespace-nowrap px-3 py-2.5"><%= r.ab || '—' %></td>
+          <td class="max-w-[8rem] truncate px-3 py-2.5 text-slate-600" title="<%= r.otros || '' %>">
+            <%= r.otros || '—' %>
+          </td>
+          <td class="max-w-[10rem] truncate px-3 py-2.5" title="<%= r.contacto || '' %>">
+            <%= r.contacto || '—' %>
+          </td>
+          <td class="max-w-[8rem] truncate px-3 py-2.5 text-slate-600" title="<%= r.columna1 || '' %>">
+            <%= r.columna1 || '—' %>
+          </td>
+          <td class="sticky right-0 z-10 whitespace-nowrap bg-white/95 px-3 py-2 text-right shadow-[-8px_0_12px_-8px_rgba(15,23,42,0.12)] backdrop-blur">
+            <a
+              href="/<%= r.id %>/edit"
+              class="mr-2 inline-flex rounded-md px-2 py-1 text-slate-700 hover:bg-slate-100"
+              >Editar</a
+            >
+            <form
+              action="/<%= r.id %>/delete"
+              method="post"
+              class="inline"
+              onsubmit="return confirm('¿Eliminar este registro?');"
+            >
+              <button
+                type="submit"
+                class="inline-flex rounded-md px-2 py-1 text-red-600 hover:bg-red-50"
+              >
+                Eliminar
+              </button>
+            </form>
+          </td>
+        </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<%- include('partials/foot') %>
